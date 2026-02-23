@@ -40,7 +40,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
     double carPrice = double.parse(carPriceCtrl.text);
     double interest = double.parse(interestCtrl.text);
 
-    // สูตรตามโจทย์
+    
     double loan = carPrice - (carPrice * downPercent / 100);
     double totalInterest = (loan * interest / 100) * (period / 12);
     double monthly = (loan + totalInterest) / period;
@@ -92,7 +92,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    'assets/images/33.png', // 👈 เปลี่ยนเป็นชื่อรูปของคุณ
+                    'assets/images/33.png',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -100,7 +100,9 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
             ),
 
             const SizedBox(height: 20),
-            // ราคารถ
+            
+
+
             const Text('ราคารถ (บาท)'),
             TextField(
               controller: carPriceCtrl,
@@ -113,7 +115,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
 
             const SizedBox(height: 12),
 
-            // เงินดาวน์ (RadioGroup)
+            
             const Text('จำนวนเงินดาวน์ (%)'),
             Wrap(
               children: downList.map((e) {
@@ -137,7 +139,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
 
             const SizedBox(height: 12),
 
-            // ระยะเวลาผ่อน (DropdownButton)
+         
             const Text('ระยะเวลาผ่อน (เดือน)'),
             DropdownButtonFormField<int>(
               value: period,
@@ -159,7 +161,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
 
             const SizedBox(height: 12),
 
-            // ดอกเบี้ย
+          
             const Text('อัตราดอกเบี้ย (%/ปี)'),
             TextField(
               controller: interestCtrl,
@@ -172,7 +174,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
 
             const SizedBox(height: 16),
 
-            // ปุ่ม
+          
             Row(
               children: [
                 Expanded(
@@ -199,7 +201,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
 
             const SizedBox(height: 30),
 
-            // แสดงผล
+            
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
