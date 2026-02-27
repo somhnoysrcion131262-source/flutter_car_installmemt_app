@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CarInstallmentUi extends StatefulWidget {
   const CarInstallmentUi({super.key});
@@ -18,6 +19,9 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
 
   final List<int> downList = [10, 20, 30, 40, 50];
   final List<int> periodList = [24, 36, 48, 60, 72];
+
+  Color calcTextColor = Colors.white;
+  Color resetTextColor = Colors.white;
 
   void calculate() {
     if (carPriceCtrl.text.isEmpty || interestCtrl.text.isEmpty) {
@@ -40,13 +44,14 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
     double carPrice = double.parse(carPriceCtrl.text);
     double interest = double.parse(interestCtrl.text);
 
-    
     double loan = carPrice - (carPrice * downPercent / 100);
     double totalInterest = (loan * interest / 100) * (period / 12);
     double monthly = (loan + totalInterest) / period;
 
     setState(() {
       result = monthly;
+      calcTextColor = Colors.yellow;
+      resetTextColor = Colors.white;
     });
   }
 
@@ -57,6 +62,9 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
       downPercent = 10;
       period = 24;
       result = 0.0;
+
+      calcTextColor = Colors.white;
+      resetTextColor = Colors.red;
     });
   }
 
@@ -64,8 +72,15 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CI Calculator'),
+        title: const Text(
+          'CI Calculator',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -75,12 +90,14 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
             const Center(
               child: Text(
                 'คำนวณค่างวดรถ',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
-
             const SizedBox(height: 10),
-
             Center(
               child: Container(
                 width: 400,
@@ -98,12 +115,12 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
-            
-
-
-            const Text('ราคารถ (บาท)'),
+            const Text(
+              'ราคารถ (บาท)',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
             TextField(
               controller: carPriceCtrl,
               keyboardType: TextInputType.number,
@@ -112,11 +129,12 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                 hintText: '0.00',
               ),
             ),
-
             const SizedBox(height: 12),
-
-            
-            const Text('จำนวนเงินดาวน์ (%)'),
+            const Text(
+              'จำนวนเงินดาวน์ (%)',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
             Wrap(
               children: downList.map((e) {
                 return Row(
@@ -131,16 +149,17 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                         });
                       },
                     ),
-                    Text('$e'),
+                    Text('$e%'),
                   ],
                 );
               }).toList(),
             ),
-
             const SizedBox(height: 12),
-
-         
-            const Text('ระยะเวลาผ่อน (เดือน)'),
+            const Text(
+              'ระยะเวลาผ่อน (เดือน)',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
             DropdownButtonFormField<int>(
               value: period,
               decoration: const InputDecoration(
@@ -158,11 +177,12 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                 });
               },
             ),
-
             const SizedBox(height: 12),
-
-          
-            const Text('อัตราดอกเบี้ย (%/ปี)'),
+            const Text(
+              'อัตราดอกเบี้ย (%/ปี)',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
             TextField(
               controller: interestCtrl,
               keyboardType: TextInputType.number,
@@ -171,10 +191,7 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                 hintText: '0.00',
               ),
             ),
-
             const SizedBox(height: 16),
-
-          
             Row(
               children: [
                 Expanded(
@@ -182,8 +199,15 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                     onPressed: calculate,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
+                      minimumSize: const Size(double.infinity, 70),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
                     ),
-                    child: const Text('คำนวณ'),
+                    child: Text(
+                      'คำนวณ',
+                      style: TextStyle(fontSize: 18, color: calcTextColor),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -192,16 +216,20 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                     onPressed: reset,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
+                      minimumSize: const Size(double.infinity, 70),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
                     ),
-                    child: const Text('ยกเลิก'),
+                    child: Text(
+                      'ยกเลิก',
+                      style: TextStyle(fontSize: 18, color: resetTextColor),
+                    ),
                   ),
                 ),
               ],
             ),
-
-            const SizedBox(height: 30),
-
-            
+            const SizedBox(height: 15),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -212,7 +240,10 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
               ),
               child: Column(
                 children: [
-                  const Text('ค่างวดรถต่อเดือนเป็นเงิน'),
+                  const Text(
+                    'ค่างวดรถต่อเดือนเป็นเงิน',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 10),
                   Text(
                     result.toStringAsFixed(2),
@@ -222,7 +253,10 @@ class _CarInstallmentUiState extends State<CarInstallmentUi> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text('บาทต่อเดือน'),
+                  const Text(
+                    'บาทต่อเดือน',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ],
               ),
             ),
